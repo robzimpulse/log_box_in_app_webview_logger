@@ -14,10 +14,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(
-      WebviewEntryModel(
-        id: 'fake_id',
-        uri: Uri.parse('https://example.com'),
-      ),
+      WebviewEntryModel(id: 'fake_id', uri: Uri.parse('https://example.com')),
     );
   });
 
@@ -49,7 +46,11 @@ void main() {
                 .having((e) => e.uri, 'uri', uri)
                 .having((e) => e.html, 'html', html)
                 .having((e) => e.error, 'error', error.toString())
-                .having((e) => e.stackTrace, 'stackTrace', stackTrace.toString())
+                .having(
+                  (e) => e.stackTrace,
+                  'stackTrace',
+                  stackTrace.toString(),
+                )
                 .having((e) => e.loading, 'loading', true),
           ),
         ),
@@ -66,15 +67,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onTitleChanged,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'title': title, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onTitleChanged,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'title': title,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -120,19 +122,17 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onContentSizeChanged,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {
-                'previous': previous.toString(),
-                'current': current.toString(),
-                ...extra,
-              },
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onContentSizeChanged,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'previous': previous.toString(),
+                  'current': current.toString(),
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -148,15 +148,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onLoadStart,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'uri': uri.toString(), ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onLoadStart,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'uri': uri.toString(),
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -172,15 +173,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onLoadStop,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'uri': uri.toString(), ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onLoadStop,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'uri': uri.toString(),
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -196,15 +198,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onProgressChanged,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'progress': progress, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onProgressChanged,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'progress': progress,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -221,15 +224,17 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onReceivedError,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'request': request, 'error': error, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onReceivedError,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'request': request,
+                  'error': error,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -245,15 +250,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onConsoleMessage,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'message': message, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onConsoleMessage,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'message': message,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -269,15 +275,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.shouldOverrideUrlLoading,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'action': action, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.shouldOverrideUrlLoading,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'action': action,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -293,15 +300,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onRunJavascript,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'script': script, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onRunJavascript,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'script': script,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -317,15 +325,16 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onLoadResource,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'resource': resource, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onLoadResource,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'resource': resource,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -346,15 +355,17 @@ void main() {
         () => mockStorage.add(
           log: any(
             named: 'log',
-            that: isA<WebviewEntryModel>().having(
-              (e) => e.events.first.event,
-              'event',
-              WebviewEvent.onReceivedHttpError,
-            ).having(
-              (e) => e.events.first.extra,
-              'extra',
-              {'request': request, 'response': response, ...extra},
-            ),
+            that: isA<WebviewEntryModel>()
+                .having(
+                  (e) => e.events.first.event,
+                  'event',
+                  WebviewEvent.onReceivedHttpError,
+                )
+                .having((e) => e.events.first.extra, 'extra', {
+                  'request': request,
+                  'response': response,
+                  ...extra,
+                }),
           ),
         ),
       ).called(1);
@@ -403,7 +414,13 @@ void main() {
         ),
       ).called(1);
 
-      observer.set(uri: null, html: null, error: null, stackTrace: null, loading: null);
+      observer.set(
+        uri: null,
+        html: null,
+        error: null,
+        stackTrace: null,
+        loading: null,
+      );
       verify(
         () => mockStorage.add(
           log: any(

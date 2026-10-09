@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,13 +9,22 @@ import 'package:flutter_inappwebview_platform_interface/flutter_inappwebview_pla
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockLogBox extends Mock implements lb.LogBox {}
+
 class MockStorage extends Mock implements lb.Storage {}
+
 class MockBuildContext extends Mock implements BuildContext {}
+
 class MockNavigationAction extends Mock implements NavigationAction {}
+
 class MockURLRequest extends Mock implements URLRequest {}
-class MockInAppWebViewHitTestResult extends Mock implements InAppWebViewHitTestResult {}
+
+class MockInAppWebViewHitTestResult extends Mock
+    implements InAppWebViewHitTestResult {}
+
 class MockServerTrustChallenge extends Mock implements ServerTrustChallenge {}
+
 class MockFrameInfo extends Mock implements FrameInfo {}
+
 class MockSecurityOrigin extends Mock implements SecurityOrigin {}
 
 class FakeInAppWebViewPlatform extends InAppWebViewPlatform {
@@ -30,8 +38,8 @@ class FakeInAppWebViewPlatform extends InAppWebViewPlatform {
   }
 }
 
-class MockInAppWebViewWidget extends Mock 
-    with MockPlatformInterfaceMixin 
+class MockInAppWebViewWidget extends Mock
+    with MockPlatformInterfaceMixin
     implements PlatformInAppWebViewWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,10 +51,12 @@ void main() {
   setUpAll(() {
     final fakePlatform = FakeInAppWebViewPlatform();
     InAppWebViewPlatform.instance = fakePlatform;
-    
-    registerFallbackValue(PlatformInAppWebViewWidgetCreationParams(
-      initialUrlRequest: URLRequest(url: WebUri('https://example.com')),
-    ));
+
+    registerFallbackValue(
+      PlatformInAppWebViewWidgetCreationParams(
+        initialUrlRequest: URLRequest(url: WebUri('https://example.com')),
+      ),
+    );
   });
 
   group('InAppWebviewLoggerExtension', () {
@@ -146,35 +156,49 @@ void main() {
 
     test('isCloudFlare returns true when headers contain cloudflare', () {
       when(() => request.url).thenReturn(WebUri('https://some-other-host.com'));
-      when(() => request.headers).thenReturn({'X-Challenge': 'challenges.cloudflare.com'});
+      when(
+        () => request.headers,
+      ).thenReturn({'X-Challenge': 'challenges.cloudflare.com'});
       expect(action.isCloudFlare(Uri.parse('https://original.com')), isTrue);
     });
 
-    test('isCloudFlare returns true when security origin host contains cloudflare', () {
-      final targetFrame = MockFrameInfo();
-      final securityOrigin = MockSecurityOrigin();
-      when(() => request.url).thenReturn(WebUri('https://some-other-host.com'));
-      when(() => request.headers).thenReturn(null);
-      when(() => action.targetFrame).thenReturn(targetFrame);
-      when(() => targetFrame.securityOrigin).thenReturn(securityOrigin);
-      when(() => securityOrigin.host).thenReturn(cloudFlare);
-      when(() => targetFrame.request).thenReturn(null);
+    test(
+      'isCloudFlare returns true when security origin host contains cloudflare',
+      () {
+        final targetFrame = MockFrameInfo();
+        final securityOrigin = MockSecurityOrigin();
+        when(
+          () => request.url,
+        ).thenReturn(WebUri('https://some-other-host.com'));
+        when(() => request.headers).thenReturn(null);
+        when(() => action.targetFrame).thenReturn(targetFrame);
+        when(() => targetFrame.securityOrigin).thenReturn(securityOrigin);
+        when(() => securityOrigin.host).thenReturn(cloudFlare);
+        when(() => targetFrame.request).thenReturn(null);
 
-      expect(action.isCloudFlare(Uri.parse('https://original.com')), isTrue);
-    });
+        expect(action.isCloudFlare(Uri.parse('https://original.com')), isTrue);
+      },
+    );
 
-    test('isCloudFlare returns true when target url contains cloudflare token', () {
-      final targetFrame = MockFrameInfo();
-      final targetRequest = MockURLRequest();
-      when(() => request.url).thenReturn(WebUri('https://some-other-host.com'));
-      when(() => request.headers).thenReturn(null);
-      when(() => action.targetFrame).thenReturn(targetFrame);
-      when(() => targetFrame.securityOrigin).thenReturn(null);
-      when(() => targetFrame.request).thenReturn(targetRequest);
-      when(() => targetRequest.url).thenReturn(WebUri('https://target.com?$cloudFlareTokenKey=123'));
+    test(
+      'isCloudFlare returns true when target url contains cloudflare token',
+      () {
+        final targetFrame = MockFrameInfo();
+        final targetRequest = MockURLRequest();
+        when(
+          () => request.url,
+        ).thenReturn(WebUri('https://some-other-host.com'));
+        when(() => request.headers).thenReturn(null);
+        when(() => action.targetFrame).thenReturn(targetFrame);
+        when(() => targetFrame.securityOrigin).thenReturn(null);
+        when(() => targetFrame.request).thenReturn(targetRequest);
+        when(
+          () => targetRequest.url,
+        ).thenReturn(WebUri('https://target.com?$cloudFlareTokenKey=123'));
 
-      expect(action.isCloudFlare(Uri.parse('https://original.com')), isTrue);
-    });
+        expect(action.isCloudFlare(Uri.parse('https://original.com')), isTrue);
+      },
+    );
 
     test('isCloudFlare returns false when nothing matches', () {
       when(() => request.url).thenReturn(WebUri('https://clean.com'));
